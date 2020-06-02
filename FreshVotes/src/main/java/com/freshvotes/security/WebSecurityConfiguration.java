@@ -18,6 +18,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	// This password encoder enables to encrypt the
 	// password, if there is not that, then spring will throw an error
+	//As we have set this PasswordEncoder as a bean, we can use it in the spring context
+	//So we can call it using the Autowired annotation
 	@Bean
 	public PasswordEncoder getPasswordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -44,8 +46,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		// http.csrf().disable()
 		// We enable CSRF by removing the disable code
-		http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/login").permitAll().antMatchers("/admin/**")
-				.hasRole("ADMIN").anyRequest().hasRole("ADMIN").and().formLogin().loginPage("/login")
+		http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/register").permitAll().antMatchers("/login").permitAll().antMatchers("/admin/**")
+				.hasRole("ADMIN").anyRequest().hasRole("USER").and().formLogin().loginPage("/login")
 				.defaultSuccessUrl("/dashboard").permitAll().and().logout().logoutUrl("/logout").permitAll();
 
 		// The permitAll authorization just says like let everyone get in
